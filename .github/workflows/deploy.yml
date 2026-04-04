@@ -1,31 +1,33 @@
-name: Deploy Reveal.js Slides to GitHub Pages
+name: Deploy Reveal.js Slides
 
 on:
   push:
     branches:
-      - main  # change if your default branch is 'master'
+      - main  # change if your default branch is different
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      # 1. Checkout repo
+      - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      # 2. Setup Node.js
+      - uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: 20
 
-      - name: Install dependencies
-        run: npm install
+      # 3. Install dependencies
+      - run: yarn install
 
-      - name: Build slides (optional)
-        run: echo "No build needed if index.html is ready"
+      # 4. Build the site
+      - run: yarn build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v6
+      # 5. Deploy to GitHub Pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./       # or ./docs if you store slides in a folder
+          publish_dir: ./dist
+          # optional: customize branch, default is gh-pages
+          publish_branch: gh-pages
