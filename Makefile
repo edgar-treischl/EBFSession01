@@ -1,10 +1,7 @@
-.PHONY: dev build preview
+.PHONY: dev build
 
 dev:
 	yarn dev
 
 build:
 	yarn build
-
-preview:
-	yarn preview
